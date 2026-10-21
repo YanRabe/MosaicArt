@@ -54,6 +54,12 @@ R = A .* B - C.^2 - k .* (A + B).^2;
 n2=floor(TailleFenetre/2);
 [l,c]=size(Im);
 Res=zeros(l,c);
+Res(1:n2,:) = -inf;
+Res(l-n2+1:l,:) = -inf;
+Res(:,1:n2) = -inf;
+Res(:,c-n2+1:c) = -inf;
+
+
 
 for i=(n2+1):(l-n2)
     for j=(n2+1):(c-n2)

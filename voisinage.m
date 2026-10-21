@@ -20,7 +20,19 @@ voisins = zeros(npt,TailleFenetre*TailleFenetre);
 % Calcul de la demi-fenetre de correlation
 K = floor(TailleFenetre/2);
 
+
 %%%%%%%%%%%%%%%%%
 %% A COMPLETER %%
 %%%%%%%%%%%%%%%%%
+
+I = double(I);
+
+
+for p = 1:npt
+    x = xyPt(p,1);
+    y = xyPt(p,2);
+    fenetre = I(y-K:y+K, x-K:x+K);
+    voisins(p,:) = fenetre(:)';
+end
+
 
