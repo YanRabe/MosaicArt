@@ -48,8 +48,8 @@ nbptintI1 = size(indptI1,1); nbptintI2 = size(indptI2,1);
 %%%%%%%%%%%%%%%%%
 %% A COMPLETER %%
 %%%%%%%%%%%%%%%%%
-vois1 = voisinage(I1, Ptint1, K);
-vois2 = voisinage(I2, Ptint2, K);
+vois1 = voisinage(I1, Ptint1(indptI1,:), K);
+vois2 = voisinage(I2, Ptint2(indptI2,:), K);
 
 % Nb Pixels par fenetre de correlation
 NbPix = K*K;
@@ -63,23 +63,23 @@ i1 = i1(:); i2 = i2(:);
 %%%%%%%%%%%%%%%%%
 %% A COMPLETER %%
 %%%%%%%%%%%%%%%%%
-mean_gris1 = mean(vois1)
-mean_gris2 = mean(vois2)
+mean_gris1 = mean(vois1,2);
+mean_gris2 = mean(vois2,2);
 
 % Variance des niveaux de gris du voisinage de chaque point
 % Utilisation de var
 %%%%%%%%%%%%%%%%%
 %% A COMPLETER %%
 %%%%%%%%%%%%%%%%%
-var_gris1 = var(vois1)
-var_gris2 = var(vois2)
+var_gris1 = var(vois1 ,1 ,2);
+var_gris2 = var(vois2 ,1 ,2);
 
 % Pour chaque combinaison de paires de points, la covariance 
 % entre les deux voisinages : le numerateur dans la formule ZNCC
 %%%%%%%%%%%%%%%%%
 %% A COMPLETER %%
 %%%%%%%%%%%%%%%%%
-cor = (mean_gris1 - var_gris1) .* (mean_gris2 - var_gris2);
+cor = (vois1 - mean_gris1) * (vois2 - mean_gris2)' / NbPix;
 
 
 % Calcul du score de correlation : 
@@ -88,7 +88,7 @@ cor = (mean_gris1 - var_gris1) .* (mean_gris2 - var_gris2);
 %%%%%%%%%%%%%%%%%
 %% A COMPLETER %%
 %%%%%%%%%%%%%%%%%
-cor = cor ./ (var_gris1 .* var_gris2);
+cor = cor ./ sqrt(var_gris1 * var_gris2');
 
 % Affectation a la matrice C
 C(indptI1(i1)+(indptI2(i2)-1)*nptI1) = cor';
