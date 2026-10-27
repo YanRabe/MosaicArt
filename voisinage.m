@@ -29,10 +29,10 @@ I = double(I);
 
 
 for p = 1:npt
-    x = xyPt(p,1);
-    y = xyPt(p,2);
-    fenetre = I(y-K:y+K, x-K:x+K);
-    voisins(p,:) = fenetre(:)';
+    x = xyPt(p, 1);
+    y = xyPt(p, 2);
+    fenetre = I(y - K: y + K, x - K: x + K);
+    voisins(p, :) = fenetre(:)';
 end
 
 

@@ -1,4 +1,4 @@
-function [XY,R]=harris(Im,TailleFenetre,NbPoints,k);
+function [XY,R]=harris(Im,TailleFenetre,NbPoints,k)
 %[XY,Res]=harris(Im,TailleFenetre,NbPoints,k);
 %
 % Im -> image
@@ -17,9 +17,9 @@ function [XY,R]=harris(Im,TailleFenetre,NbPoints,k);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Verification et correction eventuelle des parametres donnes
-if nargin < 4, k=0.05;      end;
-if nargin < 3, NbPoints=50;      end;
-if nargin < 2, TailleFenetre=9;  end;
+if nargin < 4, k=0.05;      end
+if nargin < 3, NbPoints=50;      end
+if nargin < 2, TailleFenetre=9;  end
 
 % (1.1) Calcul des dérivées images suivant les lignes et les colonnes 
 %       en utilisant la fonction gradient
@@ -73,7 +73,7 @@ end
 % (2.2) Selection des NbPoints en fonction de "NbPoints" reponses les plus fortes
 % Tri des reponses : utiliser sort en LINEARISANT Res au préalable
 %%% A COMPLETER %%%
-[s,is]=sort(Res(:), "descend");
+[~, is]=sort(Res(:), "descend");
 
 % Selection des indices de NbPoints de plus fortes reponses
 %%% A COMPLETER %%%
