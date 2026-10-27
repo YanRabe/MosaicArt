@@ -27,7 +27,7 @@ function C = apparier_Points(I1,Ptint1,I2,Ptint2,K)
 % K : Taille de la fenetre de correlation utilisee
 
 % Dimensions des images
-[htI1 lgI1] = size(I1); [htI2 lgI2] = size(I2);
+[htI1, lgI1] = size(I1); [htI2, lgI2] = size(I2);
 % Nombres de points d'interet de l'image 1 et de l'image 2
 nptI1 = size(Ptint1,1); nptI2 = size(Ptint2,1);
 % Construction de la matrice des mesures de correlation
@@ -45,49 +45,35 @@ nbptintI1 = size(indptI1,1); nbptintI2 = size(indptI2,1);
 % Determination du voisinage : vois1, vois2 matrices composees 
 % pour chaque ligne des niveaux de gris du voisinage du point
 % Appel a la fonction voisinage
-%%%%%%%%%%%%%%%%%
-%% A COMPLETER %%
-%%%%%%%%%%%%%%%%%
 vois1 = voisinage(I1, Ptint1(indptI1,:), K);
 vois2 = voisinage(I2, Ptint2(indptI2,:), K);
 
 % Nb Pixels par fenetre de correlation
 NbPix = K*K;
 % Calcul de tous les appariements possibles
-[i1 i2] = meshgrid(1:nbptintI1,1:nbptintI2); 
-i1 = i1(:); i2 = i2(:);
+[i1, i2] = meshgrid(1:nbptintI1,1:nbptintI2); 
+i1 = i1(:);
+i2 = i2(:);
 
 % Pour les images I1 et I2
 % Moyenne des niveaux de gris du voisinage de chaque point
 % Utilisation de mean
-%%%%%%%%%%%%%%%%%
-%% A COMPLETER %%
-%%%%%%%%%%%%%%%%%
 mean_gris1 = mean(vois1,2);
 mean_gris2 = mean(vois2,2);
 
 % Variance des niveaux de gris du voisinage de chaque point
 % Utilisation de var
-%%%%%%%%%%%%%%%%%
-%% A COMPLETER %%
-%%%%%%%%%%%%%%%%%
 var_gris1 = var(vois1 ,1 ,2);
 var_gris2 = var(vois2 ,1 ,2);
 
 % Pour chaque combinaison de paires de points, la covariance 
 % entre les deux voisinages : le numerateur dans la formule ZNCC
-%%%%%%%%%%%%%%%%%
-%% A COMPLETER %%
-%%%%%%%%%%%%%%%%%
 cor = (vois1 - mean_gris1) * (vois2 - mean_gris2)' / NbPix;
 
 
 % Calcul du score de correlation : 
 % ajouter le denominateur dans la formule ZNCC 
 % (le produit des variances)
-%%%%%%%%%%%%%%%%%
-%% A COMPLETER %%
-%%%%%%%%%%%%%%%%%
 cor = cor ./ sqrt(var_gris1 * var_gris2');
 
 % Affectation a la matrice C
