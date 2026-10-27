@@ -1,7 +1,7 @@
 % Calcul des coordonnees (xy2) des points (xy1)
 % apres application d'une homographique H
 
-function [xy2] = appliquerHomographie(H,xy1)
+function [xy2] = appliquerHomographie(H, xy1)
 
 % Entrees :
 %
@@ -15,14 +15,20 @@ function [xy2] = appliquerHomographie(H,xy1)
 
 % Nombre de points
 % ... A completer ...
+NbPoints = size(xy1, 1);
 
 % Construction des coordonnees homogenes pour appliquer l'homographie
 % ... A completer ...
+xy1_homogene = [xy1 ones(NbPoints, 1)];
 
 % Application de l'homographie
 % ... A completer ...
+xy2_3d = (H * xy1_homogene')';
 
 % On retourne les coordonnees homogenes (x,y,1)
 % Pour cela, il faut diviser par z
 % Attention il ne faut garder que les deux premieres coordonnees
 % ... A completer ...
+z = xy2_3d(:, 3);
+xy2_homogene = xy2_3d ./ z;
+xy2 = xy2_homogene(:, 1:2);
