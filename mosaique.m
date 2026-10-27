@@ -73,7 +73,6 @@ for x=1:nbcImos,
     % Calcul des coordonnees dans I1 connaissant les coordonnees du point origine de I1 dans Imos.
     y_R1= y - O1y_Rmos;
     x_R1= x - O1x_Rmos;
-
     % Dans le repere attache a l'image I1,
     % nous estimons les coordonnees du point image de (y_R1,x_R1)
     % par l'homographie H : (xy_R2).
@@ -85,18 +84,11 @@ for x=1:nbcImos,
     x_R2=round(xy_R2(1));
     y_R2=round(xy_R2(2));
 
-    % Amelioration de la mosaique
+    % On verifie que xy_R2 appartient bien a l'image I2
+    % avant d'affecter cette valeur a Imos
     % Lignes et colonnes sont inversees.
-    if (x_R2 >=1 && x_R2 <= nbcI2 && y_R2 >= 1 && y_R2 <= nblI2)
-      if (x_R1 >= 1 && x_R1 <= nbcI1 && y_R1 >= 1 && y_R1 <= nblI1)
-        d1 = nbcI1 - x_R1;
-        d2 = x_R2;
-        p1 = d1 / (d1 + d2);
-        p2 = d2 / (d1 + d2);
-        Imos(y, x)= p1* I1(y_R1, x_R1) + p2 * I2(y_R2, x_R2);
-      else
-        Imos(y,x)= I2(y_R2, x_R2);
-      end
+    if(x_R2>=1 & x_R2<=nbcI2 & y_R2>=1 & y_R2<=nblI2)
+      Imos(y,x)= I2(y_R2,x_R2);
     end
 
   end
