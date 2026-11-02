@@ -69,8 +69,8 @@ O1y_Rmos = 1-(ymin-1);
 Imos(O1y_Rmos:O1y_Rmos+nblI1-1, O1x_Rmos:O1x_Rmos+nbcI1-1, :) = I1;
 
 % Copie de l'image I2 transformee par l'homographie H.
-for x=1:nbcImos,
-  for y=1:nblImos,
+for x=1:nbcImos
+  for y=1:nblImos
     % Calcul des coordonnees dans I1 connaissant les coordonnees du point origine de I1 dans Imos.
     y_R1= y - O1y_Rmos;
     x_R1= x - O1x_Rmos;
