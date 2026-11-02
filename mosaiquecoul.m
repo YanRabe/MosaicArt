@@ -13,6 +13,9 @@ function [Imos] = mosaiquecoul(I1,I2,H)
 [nblI1, nbcI1, nbCanI1] = size(I1);
 [nblI2, nbcI2, nbCanI2] = size(I2);
 
+I1 = double(I1);
+I2 = double(I2);
+
 % On calcule l'homographie inverse, normalisee,
 % pour nous permettre d'effectuer la transformation de I2 vers I1.
 Hinv=inv(H);

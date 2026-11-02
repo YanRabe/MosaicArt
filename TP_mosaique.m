@@ -79,73 +79,42 @@ imwrite(uint8(Imoscoul),'mosaique2_coul.jpg');
 %% Version 4 pour la reconstruction avec 3 images %%  
 % en couleurs et/ou en niveaux de gris           %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% MOSAIQUE 2 ET 3
-figure;
-affichage_image(Im2, 'Image 2', 1, 2, 1);
-affichage_image(Im3, 'Image 3', 1, 2, 2);
+%% MOSAIQUE 1 2 ET 3
 
-figure;
-affichage_POI(Im2, XY_2, 'POI Image 2', 1, 2, 1);
-affichage_POI(Im3, XY_3, 'POI Image 3', 1, 2, 2);
-
+%appariage de l'image 2 et 3 pour obtenir le H de 2 à 3
 [XY_C2b, XY_C3] = apparier_POI(Im2, XY_2, Im3, XY_3, TailleFenetre, seuil);
 
 H23 = homographie(XY_C2b, XY_C3);
 
-Imos2 = mosaique(Im2, Im3, H23);
-figure; 
-affichage_image(uint8(Imos2),'Mosaique obtenue a partir des images 2 et 3',1,1,1);
-% SAUVEGARDE DE LA MOSAIQUE A DEUX IMAGES
-imwrite(uint8(Imos2),'mosaique3.pgm');
 
+[nblI2, nbcI2] = size(Im2);
 
-Imos2bis = mosaiquebis(Im2, Im3, H23);
-figure; 
-affichage_image(uint8(Imos2bis),'Mosaique obtenue a partir des images 2 et 3 (version 2)',1,1,1);
-% SAUVEGARDE DE LA MOSAIQUE A DEUX IMAGES VERSION 2
-imwrite(uint8(Imos2bis),'mosaique3_bis.pgm');
+% Calcul des dimensions de la mosaique.
+xy_coinsI2_R2 = [1 1; nbcI2 1; nbcI2 nblI2; 1 nblI2];
+% Application de l'homographie Hinv sur ces coins.
+% Calcul des images des coins dans Imos.
+xy_coinsI2_R1 = appliquerHomographie(inv(H12), xy_coinsI2_R2);
 
+% Determination des dimensions de l'image mosaique,
+xmin = floor(min([xy_coinsI2_R1(:,1)' 1]));
+ymin = floor(min([xy_coinsI2_R1(:,2)' 1]));
 
-Imos2coul = mosaiquecoul(Im2_coul, Im3_coul, H23);
+% Calcul de l'origine de l'image Imos dans le repere de la mosaique Imos2.
+O1x_Rmos = 1 - (xmin - 1);
+O1y_Rmos = 1 - (ymin - 1);
+
+T12 = [1 0 O1x_Rmos;
+       0 1 O1y_Rmos;
+       0 0 1];
+
+H_123 = (H23 * H12) / T12;
+
+Imos2 = mosaique(Imosbis, Im3, H_123);
 figure;
-affichage_image(uint8(Imos2coul),'Mosaique obtenue a partir des images couleur 2 et 3 (version 2)',1,1,1);
-% SAUVEGARDE DE LA MOSAIQUE A DEUX IMAGES EN COULEUR VERSION 2
-imwrite(uint8(Imos2coul),'mosaique3_coul.jpg');
+affichage_image(uint8(Imos2), 'Mosaique obtenue a partir des images 1, 2 et 3', 1, 1, 1);
+imwrite(uint8(Imos2), 'mosaique4.pgm');
 
-%% MOSAIQUE 1_2 ET 2_3 %%
-Imos = imread('mosaique2_bis.pgm');
-Imos2 = imread('mosaique3_bis.pgm');
+Imos2coul = mosaiquecoul(Imoscoul, Im3_coul, H_123);
 figure;
-affichage_image(Imos, 'Image 1-2', 1, 2, 1);
-affichage_image(Imos2, 'Image 2-3', 1, 2, 2);
-
-[XY_12, Res_12] = harris(Imos, TailleFenetre, NbPoints, k);
-[XY_23, Res_23] = harris(Imos2, TailleFenetre, NbPoints, k);
-figure;
-affichage_POI(Imos, XY_12, 'POI Mosaique 1-2', 1, 2, 1);
-affichage_POI(Imos2, XY_23, 'POI Mosaique 2-3', 1, 2, 2);
-
-
-[XY_C12, XY_C23] = apparier_POI(Imos, XY_12, Imos2, XY_23, TailleFenetre, seuil);
-
-H13 = homographie(XY_C12, XY_C23);
-
-Imos3 = mosaique(Imos, Imos2, H13);
-figure; 
-affichage_image(uint8(Imos3),'Mosaique obtenue a partir des images 1, 2 et 3',1,1,1);
-% SAUVEGARDE DE LA MOSAIQUE A DEUX IMAGES
-imwrite(uint8(Imos3),'mosaique4.pgm');
-
-
-Imos3bis = mosaiquebis(Imos, Imos2, H13);
-figure; 
-affichage_image(uint8(Imos3bis),'Mosaique obtenue a partir des images 1, 2 et 3 (version 2)',1,1,1);
-% SAUVEGARDE DE LA MOSAIQUE A DEUX IMAGES VERSION 2
-imwrite(uint8(Imos3bis),'mosaique4_bis.pgm');
-
-
-Imos3coul = mosaiquecoul(Imoscoul, Imos2coul, H13);
-figure;
-affichage_image(uint8(Imos3coul),'Mosaique obtenue a partir des images couleur 1, 2 et 3 (version 2)',1,1,1);
-% SAUVEGARDE DE LA MOSAIQUE A DEUX IMAGES EN COULEUR VERSION 2
-imwrite(uint8(Imos3coul),'mosaique4_coul.jpg');
+affichage_image(uint8(Imos2coul), 'Mosaique couleur obtenue a partir des images 1, 2 et 3', 1, 1, 1);
+imwrite(uint8(Imos2coul), 'mosaique4_coul.jpg');
