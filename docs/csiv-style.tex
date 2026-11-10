@@ -1,0 +1,126 @@
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\setmainfont{Libertinus Serif}[Ligatures=TeX]
+\setsansfont{Inter}[Ligatures=TeX,Scale=0.94]
+\setmonofont{FiraCode Nerd Font Mono}[Scale=0.86]
+\setmathfont{Libertinus Math}
+
+\usepackage{xcolor}
+\definecolor{cPrimary}{HTML}{1B4F9C}
+\definecolor{cPrimaryLight}{HTML}{DAE8FC}
+\definecolor{cAccent}{HTML}{B85450}
+\definecolor{cGreen}{HTML}{2E7D32}
+\definecolor{cPurple}{HTML}{6A3D9A}
+\definecolor{cGray}{HTML}{4A4A4A}
+\definecolor{cRule}{HTML}{B8C4D9}
+\definecolor{cCodeBg}{HTML}{F7F8FA}
+\definecolor{cInlineCode}{HTML}{A3324A}
+
+\usepackage{sectsty}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage[most]{tcolorbox}
+\usepackage{needspace}
+\usepackage{etoolbox}
+\usepackage{textcomp}
+\usepackage{hyperref}
+
+\allsectionsfont{\sffamily\color{cPrimary}}
+\titleformat{\section}
+  {\needspace{4\baselineskip}\sffamily\Large\bfseries\color{cPrimary}}
+  {\thesection}{0.6em}{}
+  [\vspace{-0.55em}{\color{cPrimary}\rule{\linewidth}{1.1pt}}]
+\titleformat{\subsection}
+  {\needspace{3\baselineskip}\sffamily\large\bfseries\color{cPrimary}}
+  {\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}
+  {\needspace{3\baselineskip}\sffamily\normalsize\bfseries\color{cPurple}}
+  {\thesubsubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.5ex plus .4ex minus .2ex}{0.9ex}
+\titlespacing*{\subsection}{0pt}{1.2ex plus .3ex minus .2ex}{0.6ex}
+
+% ---- TOC ----
+\renewcommand{\cftsecfont}{\sffamily\bfseries\color{cPrimary}}
+\renewcommand{\cftsecpagefont}{\sffamily\bfseries\color{cPrimary}}
+\renewcommand{\cftsubsecfont}{\sffamily\color{cGray}}
+\renewcommand{\cftsubsecpagefont}{\sffamily\color{cGray}}
+% colour the dot leaders correctly (do NOT redefine \cftsecleader)
+\renewcommand{\cftdotsep}{1.5}
+\renewcommand{\cftsecdotsep}{\cftdotsep}
+\renewcommand{\cftsubsecdotsep}{\cftdotsep}
+% give the page-number column enough room and keep it right-aligned
+\setlength{\cftsecnumwidth}{2.5em}
+\setlength{\cftsubsecnumwidth}{3.2em}
+\setlength{\cftbeforesecskip}{3pt}
+\setlength{\cftbeforesubsecskip}{1pt}
+% tint the leaders without breaking the layout
+\renewcommand{\cftsecleader}{\color{cRule}\cftdotfill{\cftsecdotsep}\color{black}}
+\renewcommand{\cftsubsecleader}{\color{cRule}\cftdotfill{\cftsubsecdotsep}\color{black}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{cRule}\leaders\hrule height \headrulewidth\hfill}}
+\fancyhead[L]{\footnotesize\sffamily\color{cPrimary}\nouppercase{\leftmark}}
+\fancyhead[R]{\footnotesize\sffamily\color{cGray}\thepage}
+\fancyfoot[C]{\scriptsize\sffamily\color{cGray}CSIV --- Compression, Streaming, Interaction Vid\'eo}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=cPrimary,
+  urlcolor=cGreen,
+  citecolor=cPurple,
+  filecolor=cAccent,
+  linktoc=all,
+  bookmarksnumbered=true
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em plus 0.1em minus 0.1em}
+\linespread{1.02}
+\setlist[itemize]{leftmargin=1.3em,itemsep=0.15em,topsep=0.3em,label=\textcolor{cPrimary}{\textbullet}}
+\setlist[enumerate]{leftmargin=1.6em,itemsep=0.15em,topsep=0.3em,label=\textcolor{cPrimary}{\bfseries\arabic*.}}
+
+\newtcolorbox{keybox}{
+  breakable, enhanced, colback=cPrimaryLight!45, colframe=cPrimary,
+  boxrule=0pt, leftrule=2.6pt, arc=1.5pt, outer arc=1.5pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt,
+  before skip=0.6em, after skip=0.6em
+}
+\renewenvironment{quote}{\begin{keybox}}{\end{keybox}}
+
+\usepackage{fvextra}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,breakanywhere,commandchars=\\\{\}}
+
+\newtcolorbox{codebox}{
+  breakable, enhanced, colback=cCodeBg, colframe=cRule,
+  boxrule=0.5pt, arc=2pt, left=6pt, right=6pt, top=5pt, bottom=5pt,
+  before skip=0.6em, after skip=0.6em
+}
+% pandoc defines Shaded as \newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+% in its generated preamble, i.e. AFTER this header. Redefine the inner
+% environment at document start so the tcolorbox wrapper is used.
+\AtBeginDocument{%
+  \ifdefined\snugshade
+    \renewenvironment{snugshade}{\begin{codebox}}{\end{codebox}}%
+  \fi
+}
+
+\renewcommand{\texttt}[1]{{\color{cInlineCode}\ttfamily #1}}
+
+\arrayrulecolor{cPrimary}
+\renewcommand{\arraystretch}{1.18}
+\setlength{\tabcolsep}{5pt}
+\AtBeginEnvironment{longtable}{\small}
+\captionsetup{font={small,sf},labelfont={bf,color=cPrimary},labelsep=endash}
+
+\setkeys{Gin}{width=\linewidth,keepaspectratio}
