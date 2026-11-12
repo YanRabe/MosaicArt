@@ -96,8 +96,8 @@ xy_coinsI2_R2 = [1 1; nbcI2 1; nbcI2 nblI2; 1 nblI2];
 xy_coinsI2_R1 = appliquerHomographie(inv(H12), xy_coinsI2_R2);
 
 % Determination des dimensions de l'image mosaique,
-xmin = floor(min([xy_coinsI2_R1(:,1)' 1]));
-ymin = floor(min([xy_coinsI2_R1(:,2)' 1]));
+xmin = floor(min([xy_coinsI2_R1(:, 1)' 1]));
+ymin = floor(min([xy_coinsI2_R1(:, 2)' 1]));
 
 % Calcul de l'origine de l'image Imos dans le repere de la mosaique Imos2.
 O1x_Rmos = 1 - (xmin - 1);

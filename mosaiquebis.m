@@ -7,7 +7,7 @@
 % C'est la raison pour laquelle on inverse les lignes et les colonnes
 % dans la reconstruction de la mosaique.
 
-function [Imos] = mosaiquebis(I1,I2,H)
+function [Imos] = mosaiquebis(I1, I2, H)
 
 % On recupere la taille des deux images.
 [nblI1, nbcI1] = size(I1);
@@ -15,8 +15,8 @@ function [Imos] = mosaiquebis(I1,I2,H)
 
 % On calcule l'homographie inverse, normalisee,
 % pour nous permettre d'effectuer la transformation de I2 vers I1.
-Hinv=inv(H);
-Hinv=Hinv./Hinv(3,3);
+Hinv = inv(H);
+Hinv = Hinv ./ Hinv(3, 3);
 
 % Calcul des dimensions de la mosaique.
 % Calcul des quatre coins dans l'image 2.
@@ -27,7 +27,7 @@ xy_coinsI2_R2 = [1 1; nbcI2 1; nbcI2 nblI2; 1 nblI2];
 
 % Application de l'homographie Hinv sur ces coins.
 % Calcul des images des coins dans I1.
-xy_coinsI2_R1 = appliquerHomographie(Hinv,xy_coinsI2_R2)
+xy_coinsI2_R1 = appliquerHomographie(Hinv, xy_coinsI2_R2)
 
 % Determination des dimensions de l'image mosaique,
 % les xmin ymin xmax ymax, ou :
@@ -36,17 +36,17 @@ xy_coinsI2_R1 = appliquerHomographie(Hinv,xy_coinsI2_R2)
 %  - etc
 % Lignes et colonnes sont inversees.
 
-xmin=min([xy_coinsI2_R1(:,1)' 1]);
-ymin=min([xy_coinsI2_R1(:,2)' 1]);
-xmax=max([xy_coinsI2_R1(:,1)' nbcI1]);
-ymax=max([xy_coinsI2_R1(:,2)' nblI1]);
+xmin = min([xy_coinsI2_R1(:,1)' 1]);
+ymin = min([xy_coinsI2_R1(:,2)' 1]);
+xmax = max([xy_coinsI2_R1(:,1)' nbcI1]);
+ymax = max([xy_coinsI2_R1(:,2)' nblI1]);
 
 % On arrondit de maniere a etre certain d'avoir les coordonnees initiales
 % bien comprises dans l'image.
-xmin=floor(xmin);
-ymin=floor(ymin);
-xmax=ceil(xmax);
-ymax=ceil(ymax);
+xmin = floor(xmin);
+ymin = floor(ymin);
+xmax = ceil(xmax);
+ymax = ceil(ymax);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CONTRUCTION DE LA MOSAIQUE %
@@ -54,18 +54,18 @@ ymax=ceil(ymax);
 
 % Calcul de la taille de la mosaique.
 % Lignes et colonnes sont inversees.
-nblImos=ymax-ymin+1;
-nbcImos=xmax-xmin+1;
+nblImos = ymax-ymin+1;
+nbcImos = xmax-xmin+1;
 
-Imos=zeros(nblImos,nbcImos);
+Imos = zeros(nblImos, nbcImos);
 
 % Calcul de l'origine de l'image I1 dans le repere de la mosaique Imos.
-O1x_Rmos = 1-(xmin-1);
-O1y_Rmos = 1-(ymin-1);
+O1x_Rmos = 1 - (xmin - 1);
+O1y_Rmos = 1 - (ymin - 1);
 
 % Copie de l'image I1.
 % Lignes et colonnes sont inversees.
-Imos(O1y_Rmos:O1y_Rmos+nblI1-1, O1x_Rmos:O1x_Rmos+nbcI1-1) = I1;
+Imos(O1y_Rmos:O1y_Rmos + nblI1 - 1, O1x_Rmos:O1x_Rmos + nbcI1 - 1) = I1;
 
 % Copie de l'image I2 transformee par l'homographie H.
 for x=1:nbcImos

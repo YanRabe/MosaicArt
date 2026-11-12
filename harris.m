@@ -25,11 +25,11 @@ if nargin < 2, TailleFenetre=9;  end
 %       en utilisant la fonction gradient
 Im = double(Im);
 %%% A COMPLETER %%%
-[Ii,Ij] = gradient(Im);
+[Ii, Ij] = gradient(Im);
 
 % (1.2) Calcul du filtre de lissage gaussien
 % Calcul de sigma en fonction de la taille de la fenetre  
-sig = (TailleFenetre - 1)/4;
+sig = (TailleFenetre - 1) / 4;
 % Utilisation de fspecial
 %%% A COMPLETER %%%
 L = fspecial("gaussian", TailleFenetre, sig);
@@ -51,21 +51,21 @@ R = A .* B - C.^2 - k .* (A + B).^2;
 % 1) Il est impossible de calculer le maximum local car une partie du voisinage n'existe pas
 % 2) Il faut leur attribuer la valeur minimale afin qu'il ne soit pas selectionne par la suite
 %%% A COMPLETER %%%
-n2=floor(TailleFenetre/2);
-[l,c]=size(Im);
-Res=zeros(l,c);
-Res(1:n2,:) = -inf;
-Res(l-n2+1:l,:) = -inf;
-Res(:,1:n2) = -inf;
-Res(:,c-n2+1:c) = -inf;
+n2 = floor(TailleFenetre / 2);
+[l, c] = size(Im);
+Res = zeros(l, c);
+Res(1:n2, :) = -inf;
+Res(l - n2 + 1:l, :) = -inf;
+Res(:, 1:n2) = -inf;
+Res(:, c - n2 + 1:c) = -inf;
 
 
 
-for i=(n2+1):(l-n2)
-    for j=(n2+1):(c-n2)
-        voisinage = R(i-n2:i+n2, j-n2:j+n2);
-        if R(i,j) == max(voisinage, [], "all")
-            Res(i,j) = R(i,j);
+for i = (n2 + 1):(l - n2)
+    for j = (n2 + 1):(c - n2)
+        voisinage = R(i - n2:i + n2, j - n2:j + n2);
+        if R(i, j) == max(voisinage, [], "all")
+            Res(i, j) = R(i, j);
         end
     end
 end
@@ -84,7 +84,7 @@ is = is(1:NbPoints);
 % Calcul des indices dans l'image 
 % Utiliser ind2sub, attention a l'ordre pour recuperer les coordonnees
 %%% A COMPLETER %%%
-[Y,X]= ind2sub(size(R), is);
+[Y, X]= ind2sub(size(R), is);
 
 %%% A COMPLETER %%%
 XY = [X, Y];

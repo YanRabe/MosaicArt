@@ -12,13 +12,13 @@ function voisins = voisinage(I,xyPt,TailleFenetre)
 % voisins : une matrice contenant pour chaque ligne (= chaque point),
 %           le voisinage du point associe
 % Nombre de points pour lesquels leur voisinage est cherche
-npt = size(xyPt,1); 
+npt = size(xyPt, 1); 
 
 % Initialisation
-voisins = zeros(npt,TailleFenetre*TailleFenetre);
+voisins = zeros(npt, TailleFenetre * TailleFenetre);
 
 % Calcul de la demi-fenetre de correlation
-K = floor(TailleFenetre/2);
+K = floor(TailleFenetre / 2);
 
 
 %%%%%%%%%%%%%%%%%
